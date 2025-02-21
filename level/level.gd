@@ -28,6 +28,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_player_hit() -> void:
 	print("Player was hit!")
+	$GameOver.play()
 	$TimerPipe.stop()
 	ground_speed = 0
 	# Get each current pipe instance and set all of their speeds to 0
@@ -64,6 +65,7 @@ func pipe_passthrough() -> void:
 		# if item is pipe, check if pos.x is equal to playerpos.x
 		if item.is_in_group("Pipe"):
 			if item.position.x == $Player.position.x:
+				$CoinSound.play()
 				$HUD.update_score()
 			
 func display_flash() -> void: 

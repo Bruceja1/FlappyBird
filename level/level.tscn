@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cirfrcg3iv6bo"]
+[gd_scene load_steps=12 format=3 uid="uid://cirfrcg3iv6bo"]
 
 [ext_resource type="Script" path="res://level/level.gd" id="1_5ow2e"]
 [ext_resource type="Texture2D" uid="uid://bklylkidr6em2" path="res://level/background.png" id="1_66n7g"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://dg5bt6iy7pee3" path="res://player/player.tscn" id="3_enfji"]
 [ext_resource type="PackedScene" uid="uid://dxbwgo2331w4i" path="res://pipe/pipe.tscn" id="4_ettgd"]
 [ext_resource type="PackedScene" uid="uid://d0y487jhnugs7" path="res://HUD/hud.tscn" id="6_jl6tk"]
+[ext_resource type="AudioStream" uid="uid://6lvvrcsvtshm" path="res://assets/sounds/game-over.wav" id="7_amvyr"]
+[ext_resource type="AudioStream" uid="uid://b1nbj5dqgap6f" path="res://assets/sounds/coin.wav" id="8_njxtp"]
 
 [sub_resource type="GDScript" id="GDScript_mc0ia"]
 script/source = "extends StaticBody2D
@@ -93,6 +95,12 @@ position = Vector2(616, 528)
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_right = 2.16
 offset_bottom = 1.86
+
+[node name="GameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_amvyr")
+
+[node name="CoinSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_njxtp")
 
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="TimerPipe" to="." method="_on_pipe_timer_timeout"]

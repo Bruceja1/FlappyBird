@@ -34,6 +34,7 @@ func player_falling(delta: float):
 		
 func player_jump(delta: float):
 	if Input.is_action_just_pressed("jump") && current_state != State.Dead:
+		$JumpSound.play()
 		velocity.y = JUMP_VELOCITY
 		position.y = clamp(position.y, 0, viewport_size.y)
 		# Up position of the sprite
