@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxbwgo2331w4i"]
+
+[ext_resource type="Script" path="res://pipe/pipe.gd" id="1_fskd1"]
+[ext_resource type="Texture2D" uid="uid://bavgryf66jsfb" path="res://pipe/pipe.png" id="1_g6qc2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l1oo0"]
+size = Vector2(24, 199.625)
+
+[node name="Pipe" type="Area2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_fskd1")
+
+[node name="DownPipe" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, 45)
+texture = ExtResource("1_g6qc2")
+
+[node name="UpPipe" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -199.963)
+rotation = -3.14159
+texture = ExtResource("1_g6qc2")
+
+[node name="DownPipeHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 45)
+shape = SubResource("RectangleShape2D_l1oo0")
+
+[node name="UpPipeHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, -200.188)
+shape = SubResource("RectangleShape2D_l1oo0")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

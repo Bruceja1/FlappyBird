@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://cirfrcg3iv6bo"]
+
+[ext_resource type="Script" path="res://level/level.gd" id="1_5ow2e"]
+[ext_resource type="Texture2D" uid="uid://bklylkidr6em2" path="res://level/background.png" id="1_66n7g"]
+[ext_resource type="PackedScene" uid="uid://dg5bt6iy7pee3" path="res://player/player.tscn" id="3_enfji"]
+[ext_resource type="PackedScene" uid="uid://dxbwgo2331w4i" path="res://pipe/pipe.tscn" id="4_ettgd"]
+[ext_resource type="PackedScene" uid="uid://b6k0ij3neua2p" path="res://ground/ground.tscn" id="4_jb3ge"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_5ow2e")
+pipe_scene = ExtResource("4_ettgd")
+
+[node name="Background" type="TextureRect" parent="."]
+texture_filter = 1
+offset_right = 360.0
+offset_bottom = 640.0
+texture = ExtResource("1_66n7g")
+
+[node name="PipeTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="Player" parent="." instance=ExtResource("3_enfji")]
+position = Vector2(64, 318)
+
+[node name="Ground" parent="." instance=ExtResource("4_jb3ge")]
+
+[node name="Ground2" parent="." instance=ExtResource("4_jb3ge")]
+position = Vector2(360, 0)
+
+[connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
