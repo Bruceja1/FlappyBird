@@ -13,9 +13,11 @@ var ground_x_threshold : int = -410
 var screen_size : Vector2
 
 func _ready() -> void:
+	screen_size = get_viewport_rect().size
+	$HUD.screen_size = screen_size
 	$TimerPipe.start()
 	moving_marker_default_pos = $MovingGroundMarker.position
-	screen_size = get_viewport_rect().size
+	
 
 func _process(delta: float) -> void:
 	pass
