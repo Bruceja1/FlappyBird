@@ -25,7 +25,19 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	move_ground()
 	pipe_passthrough()
-
+	
+func reset_game() -> void:
+	# pipes disappear
+	for item in self.get_children():
+		# CAUTION: if the Area2D is not a pipe, this will probably crash the game!
+		if item.get_class() == "Area2D":
+			remove_child(item)
+	# ground moves
+	ground_speed = ground_speed
+	# game title appears with animated flappy texture next to it
+	
+	# start and score buttons appear
+	
 func _on_player_hit() -> void:
 	print("Player was hit!")
 	$GameOver.play()

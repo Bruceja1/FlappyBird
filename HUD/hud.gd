@@ -27,7 +27,14 @@ func game_over() -> void:
 	$GameOver.show()
 	$MenuSelectSound.play()
 	# Time between game over appearing and the scoresheet appearing
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(1).timeout
+	scoresheet()
+	# Time between scoresheet appearing and buttons appearing
+	await get_tree().create_timer(1).timeout
+	$OKButton.show()
+	$ShareButton.show()
+
+func scoresheet() -> void:
 	$ScoreSheet.show()
 	$MenuSelectSound.play()
 	
@@ -52,5 +59,3 @@ func game_over() -> void:
 		$ScoreSheet/ScoreLabel.text = str(counter)
 		await get_tree().create_timer(time_per_score).timeout
 		counter += 1
-			
-		 
