@@ -50,7 +50,7 @@ func game_over_screen(score : int) -> void:
 		counter += 1
 
 	# Time between scoresheet appearing and buttons appearing
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.1).timeout
 	$Buttons.show()
 	
 func _on_ok_button_pressed() -> void:

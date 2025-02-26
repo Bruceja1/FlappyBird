@@ -121,4 +121,6 @@ stream = ExtResource("12_lfeax")
 [connection signal="idle_state_broken" from="Player" to="." method="_on_idle_state_broken"]
 [connection signal="timeout" from="TimerPipe" to="." method="_on_pipe_timer_timeout"]
 [connection signal="ok_button_pressed" from="GameOverHUD" to="." method="_on_reset_game"]
+[connection signal="paused" from="MainGameHUD" to="." method="pause_game"]
+[connection signal="unpaused" from="MainGameHUD" to="." method="unpause_game"]
 [connection signal="start_button_pressed" from="TitleScreenHUD" to="." method="_on_start_game"]

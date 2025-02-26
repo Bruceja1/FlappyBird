@@ -7,13 +7,13 @@ signal reset_game
 signal start_game
 signal game_over
 
-const default_ground_speed : int = 2
+const DEFAULT_GROUND_SPEED : int = 2
 
 var score : int = 0
 var low_pipe_pos : int = 560
 var high_pipe_pos : int = 256
 var pipe_x_pos : int = 390
-var ground_speed : int = default_ground_speed
+var ground_speed : int = DEFAULT_GROUND_SPEED
 var moving_marker_default_pos : Vector2
 # When ground moves past this x, ground position will reset to create infinite ground scrolling effect
 var ground_x_threshold : int = -410
@@ -39,7 +39,7 @@ func _on_start_game() -> void:
 	$TitleScreenHUD.hide()
 	# Small timer so that the player and HUD don't appear during the fade out
 	await get_tree().create_timer(0.5).timeout
-	$MainGameHUD.show()
+	$MainGameHUD.show_elements()
 	$Player.show()
 	$Player.current_state = $Player.State.Idle
 	$StartGameHUD.fade_in_icons()
@@ -47,8 +47,6 @@ func _on_start_game() -> void:
 # Triggers when 'OK' button is pressed on game over screen
 func _on_reset_game() -> void:
 	$MenuSound.play()
-	# Small timer so button animation can play
-	await get_tree().create_timer(0.05).timeout
 	# pipes disappear
 	for item in self.get_children():
 		# CAUTION: if the Area2D is not a pipe, this will probably crash the game!
@@ -60,7 +58,7 @@ func _on_reset_game() -> void:
 	$MainGameHUD.update_score(score)
 	await get_tree().create_timer(0.5).timeout
 	# Ground moves again
-	ground_speed = default_ground_speed
+	ground_speed = DEFAULT_GROUND_SPEED
 	# Hide player and reset position
 	$Player.reset_player()
 	# Trigger title screen HUD
@@ -146,5 +144,22 @@ func fade_out() -> void:
 		fade_out.modulate.a8 -= 5
 	remove_child(fade_out)
 
-func _on_score_updated() -> void:
-	$GameOverHUD.score += 1
+func pause_game() -> void:
+	$MainGameHUD/PauseButton.hide()
+	$MainGameHUD/UnPauseButton.show()
+	$Player.pause()
+	for item in self.get_children():
+		if item.is_in_group("Pipe"):
+			item.pipe_speed = 0
+	$TimerPipe.paused = true
+	ground_speed = 0
+	
+func unpause_game() -> void:
+	$MainGameHUD/PauseButton.show()
+	$MainGameHUD/UnPauseButton.hide()
+	$Player.unpause()
+	for item in self.get_children():
+		if item.is_in_group("Pipe"):
+			item.pipe_speed = item.DEFAULT_SPEED
+	$TimerPipe.paused = false
+	ground_speed = DEFAULT_GROUND_SPEED

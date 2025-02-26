@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://cj5q43l0m72dk"]
+[gd_scene load_steps=6 format=3 uid="uid://cj5q43l0m72dk"]
 
 [ext_resource type="FontFile" uid="uid://p8g0sp7rxolq" path="res://assets/flappy-font.ttf" id="1_3u04k"]
 [ext_resource type="Script" path="res://HUD/MainGameHUD/main_game_hud.gd" id="1_non0a"]
+[ext_resource type="Texture2D" uid="uid://dypi4vtmpiimh" path="res://HUD/MainGameHUD/pausebutton.png" id="3_007m5"]
+[ext_resource type="Script" path="res://HUD/button.gd" id="4_0tum1"]
+[ext_resource type="Texture2D" uid="uid://cm316t641ss68" path="res://HUD/MainGameHUD/unpausebutton.png" id="5_xt7i8"]
 
-[node name="MainGameHud" type="CanvasLayer"]
+[node name="MainGameHUD" type="CanvasLayer"]
 script = ExtResource("1_non0a")
 
 [node name="ScoreLabel" type="Label" parent="."]
@@ -22,3 +25,26 @@ theme_override_fonts/font = ExtResource("1_3u04k")
 theme_override_font_sizes/font_size = 30
 text = "0"
 horizontal_alignment = 1
+
+[node name="PauseButton" type="TextureButton" parent="."]
+texture_filter = 1
+offset_left = 20.0
+offset_top = 17.0
+offset_right = 56.0
+offset_bottom = 53.0
+texture_normal = ExtResource("3_007m5")
+stretch_mode = 5
+script = ExtResource("4_0tum1")
+
+[node name="UnPauseButton" type="TextureButton" parent="."]
+texture_filter = 1
+offset_right = 40.0
+offset_bottom = 40.0
+texture_normal = ExtResource("5_xt7i8")
+stretch_mode = 5
+script = ExtResource("4_0tum1")
+
+[connection signal="pressed" from="PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="PauseButton" to="PauseButton" method="_on_pressed"]
+[connection signal="pressed" from="UnPauseButton" to="." method="_on_unpause_button_pressed"]
+[connection signal="pressed" from="UnPauseButton" to="UnPauseButton" method="_on_pressed"]

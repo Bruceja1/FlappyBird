@@ -1,7 +1,5 @@
 extends CanvasLayer
 
-
-
 var score : int = 0
 # Gets set by the level script
 var screen_size : Vector2

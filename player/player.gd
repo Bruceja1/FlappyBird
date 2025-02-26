@@ -33,18 +33,18 @@ func _physics_process(delta: float) -> void:
 	if current_state == State.Idle:
 		player_idle(delta)
 		return
-	
+		
 	move_and_slide()
 
 func player_falling(delta: float):
 	if !is_on_floor():
 		velocity.y += GRAVITY * delta
 	else:
-		if current_state != State.Dead:
+		if current_state == State.Alive:
 			game_over()
 		
 func player_jump(delta: float):
-	if Input.is_action_just_pressed("jump") && current_state != State.Dead:
+	if Input.is_action_just_pressed("jump") && current_state == State.Alive:
 		$JumpSound.play()
 		velocity.y = JUMP_VELOCITY
 		position.y = clamp(position.y, 0, viewport_size.y)
@@ -64,17 +64,14 @@ func rotate_sprite(rotation_speed):
 		if velocity.y > rotation_threshold:
 			$AnimatedSprite2D.rotation = move_toward($AnimatedSprite2D.rotation, deg_to_rad(90), rotation_speed)
 
-func display_flash():
-	pass
-
 # When idle state it awaits input, after which it will go into flapping ('Alive') state
-func player_idle(delta):
+func player_idle(delta) -> void:
 	if Input.is_action_just_pressed("jump"):
 		current_state = State.Alive
 		idle_state_broken.emit()
 		player_jump(delta)
 		
-func reset_player():
+func reset_player() -> void:
 	current_state = State.Frozen
 	position = default_pos
 	$AnimatedSprite2D.rotation = default_rot
@@ -82,3 +79,11 @@ func reset_player():
 	$AnimatedSprite2D.play("fly")
 	hide()
 		
+func pause() -> void:
+	current_state = State.Frozen
+	velocity.y = 0
+	$AnimatedSprite2D.pause()
+
+func unpause() -> void:
+	current_state = State.Alive
+	$AnimatedSprite2D.play("fly")

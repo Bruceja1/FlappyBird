@@ -1,5 +1,6 @@
 extends Node2D
 
+const DEFAULT_SPEED : float = 2
 @export var pipe_speed : float = 2
 @export var despawn_delay : float = 0.1
 

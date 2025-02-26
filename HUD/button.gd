@@ -15,5 +15,5 @@ func _process(delta: float) -> void:
 func _on_pressed() -> void:
 	var default_pos = position
 	position.y += pressed_distance
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.05).timeout
 	position = default_pos
