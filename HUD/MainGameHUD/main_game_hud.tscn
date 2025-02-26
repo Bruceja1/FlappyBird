@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cj5q43l0m72dk"]
+[gd_scene load_steps=3 format=3 uid="uid://cj5q43l0m72dk"]
 
 [ext_resource type="FontFile" uid="uid://p8g0sp7rxolq" path="res://assets/flappy-font.ttf" id="1_3u04k"]
+[ext_resource type="Script" path="res://HUD/MainGameHUD/main_game_hud.gd" id="1_non0a"]
 
 [node name="MainGameHud" type="CanvasLayer"]
+script = ExtResource("1_non0a")
 
 [node name="ScoreLabel" type="Label" parent="."]
 texture_filter = 1

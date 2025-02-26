@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cirfrcg3iv6bo"]
+[gd_scene load_steps=16 format=3 uid="uid://cirfrcg3iv6bo"]
 
 [ext_resource type="Script" path="res://level/level.gd" id="1_5ow2e"]
 [ext_resource type="Texture2D" uid="uid://bklylkidr6em2" path="res://level/background.png" id="1_66n7g"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://6lvvrcsvtshm" path="res://assets/sounds/game-over.wav" id="7_amvyr"]
 [ext_resource type="PackedScene" uid="uid://cj5q43l0m72dk" path="res://HUD/MainGameHUD/main_game_hud.tscn" id="7_sttb2"]
 [ext_resource type="AudioStream" uid="uid://b1nbj5dqgap6f" path="res://assets/sounds/coin.wav" id="8_njxtp"]
+[ext_resource type="Script" path="res://HUD/MainGameHUD/main_game_hud.gd" id="9_08wlt"]
 [ext_resource type="PackedScene" uid="uid://oys4oirqnln7" path="res://HUD/TitleScreen/title_screen_hud.tscn" id="9_c6wvd"]
 [ext_resource type="PackedScene" uid="uid://t6qp3ndlybqc" path="res://HUD/StartGameHUD/start_game_hud.tscn" id="10_7fif3"]
 
@@ -96,6 +97,7 @@ position = Vector2(616, 528)
 [node name="GameOverHUD" parent="." instance=ExtResource("6_jl6tk")]
 
 [node name="MainGameHUD" parent="." instance=ExtResource("7_sttb2")]
+script = ExtResource("9_08wlt")
 
 [node name="TitleScreenHUD" parent="." instance=ExtResource("9_c6wvd")]
 
@@ -117,4 +119,5 @@ stream = ExtResource("8_njxtp")
 [connection signal="idle_state_broken" from="Player" to="." method="_on_idle_state_broken"]
 [connection signal="timeout" from="TimerPipe" to="." method="_on_pipe_timer_timeout"]
 [connection signal="ok_button_pressed" from="GameOverHUD" to="." method="_on_reset_game"]
+[connection signal="score_updated" from="MainGameHUD" to="." method="_on_score_updated"]
 [connection signal="start_button_pressed" from="TitleScreenHUD" to="." method="_on_start_game"]

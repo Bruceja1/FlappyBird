@@ -9,12 +9,13 @@ signal game_over
 
 const default_ground_speed : int = 2
 
+var score : int = 0
 var low_pipe_pos : int = 560
 var high_pipe_pos : int = 256
 var pipe_x_pos : int = 390
 var ground_speed : int = default_ground_speed
 var moving_marker_default_pos : Vector2
-# When ground moves past this x, new ground will spawn to create infinite ground scrolling effect
+# When ground moves past this x, ground position will reset to create infinite ground scrolling effect
 var ground_x_threshold : int = -410
 var screen_size : Vector2
 
@@ -45,19 +46,22 @@ func _on_reset_game() -> void:
 		# CAUTION: if the Area2D is not a pipe, this will probably crash the game!
 		if item.get_class() == "Area2D":
 			remove_child(item)
+			
+	# Hide Game over HUD
 	$GameOverHUD/GameOver.hide()
 	$GameOverHUD/ScoreSheet.hide()
 	$GameOverHUD/Buttons.hide()
+	
 	await fade_out()
-	$MainGameHUD.reset_score()
+	
+	score = 0
+	$MainGameHUD.update_score(score)
+	
 	# Ground moves again
 	ground_speed = default_ground_speed
-	# Hide Game over HUD
-	# Hide player and reset position
-	print("Player position was ", $Player.position)
-	$Player.reset_player()
-	print("Player position is now ", $Player.position)
 	
+	# Hide player and reset position
+	$Player.reset_player()
 	
 	# Trigger title screen HUD
 	reset_game.emit()
@@ -78,7 +82,7 @@ func _on_player_hit() -> void:
 			item.pipe_speed = 0
 	display_flash()
 	$MainGameHUD.game_over()
-	game_over.emit()
+	$GameOverHUD.game_over_screen(score)
  	
 func _on_pipe_timer_timeout() -> void:
 	var pipe = pipe_scene.instantiate()
@@ -106,8 +110,9 @@ func pipe_passthrough() -> void:
 		# if item is pipe, check if pos.x is equal to playerpos.x
 		if item.is_in_group("Pipe"):
 			if item.position.x == $Player.position.x:
+				score += 1
 				$CoinSound.play()
-				$MainGameHUD.update_score()
+				$MainGameHUD.update_score(score)
 			
 func display_flash() -> void: 
 	var flash = ColorRect.new()

@@ -2,7 +2,6 @@ extends CanvasLayer
 
 signal ok_button_pressed
 
-var score : int = 0
 var screen_size : Vector2
 var scoresheet_scroll_speed : int = 20
 var default_scoresheet_pos : Vector2
@@ -17,17 +16,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func _on_game_over() -> void:
+func game_over_screen(score : int) -> void:
 	$GameOver.show()
 	$MenuSelectSound.play()
 	# Time between game over appearing and the scoresheet appearing
 	await get_tree().create_timer(1).timeout
-	scoresheet()
-	# Time between scoresheet appearing and buttons appearing
-	await get_tree().create_timer(1).timeout
-	$Buttons.show()
-	
-func scoresheet() -> void:
+
+	# Code below makes scoresheet appear, moves it up and displays the final score
 	$ScoreSheet.show()
 	$MenuSelectSound.play()
 	
@@ -35,7 +30,7 @@ func scoresheet() -> void:
 	# So first put the scoresheet at the bottom
 	for item in $ScoreSheet.get_children():
 		item.position.y += screen_size.y
-	#var original_y_pos : int = $ScoreSheet/Background.position.y - screen_size.y
+		
 	# Move the scoresheet upwards
 	while $ScoreSheet/Background.position.y >= default_scoresheet_pos.y:
 		await get_tree().create_timer(0.0001).timeout
@@ -52,6 +47,12 @@ func scoresheet() -> void:
 		$ScoreSheet/ScoreLabel.text = str(counter)
 		await get_tree().create_timer(time_per_score).timeout
 		counter += 1
+
+	# Time between scoresheet appearing and buttons appearing
+	await get_tree().create_timer(1).timeout
+	$Buttons.show()
+	
+	
 
 func _on_ok_button_pressed() -> void:
 	$MenuSelectSound.play()
