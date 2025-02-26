@@ -114,9 +114,7 @@ stream = ExtResource("7_amvyr")
 stream = ExtResource("8_njxtp")
 
 [connection signal="game_over" from="." to="GameOverHUD" method="_on_game_over"]
-[connection signal="reset_game" from="." to="TitleScreenHUD" method="_on_game_reset"]
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
-[connection signal="idle_state_broken" from="Player" to="." method="_on_idle_state_broken"]
 [connection signal="timeout" from="TimerPipe" to="." method="_on_pipe_timer_timeout"]
 [connection signal="ok_button_pressed" from="GameOverHUD" to="." method="_on_reset_game"]
 [connection signal="score_updated" from="MainGameHUD" to="." method="_on_score_updated"]

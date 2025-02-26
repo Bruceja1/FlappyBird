@@ -1,16 +1,16 @@
 [gd_scene load_steps=9 format=3 uid="uid://d0y487jhnugs7"]
 
-[ext_resource type="Script" path="res://HUD/hud.gd" id="1_1j5c7"]
+[ext_resource type="Script" path="res://HUD/GameOverHUD/game_over_hud.gd" id="1_5hrrw"]
 [ext_resource type="FontFile" uid="uid://p8g0sp7rxolq" path="res://assets/flappy-font.ttf" id="1_dpvm1"]
-[ext_resource type="Texture2D" uid="uid://yrp1maykpere" path="res://HUD/game-over.png" id="3_efhec"]
-[ext_resource type="Texture2D" uid="uid://n3440yxg4ysf" path="res://HUD/score-sheet.png" id="4_nscnu"]
-[ext_resource type="AudioStream" uid="uid://brwkv81mvpslo" path="res://assets/sounds/woosh.wav" id="5_htev3"]
-[ext_resource type="Texture2D" uid="uid://kublfr40hquf" path="res://HUD/okbutton.png" id="6_1gknp"]
-[ext_resource type="Texture2D" uid="uid://cjfd6p5uqrhjl" path="res://HUD/sharebutton.png" id="7_3iw2s"]
+[ext_resource type="Texture2D" uid="uid://yrp1maykpere" path="res://HUD/GameOverHUD/game-over.png" id="3_efhec"]
+[ext_resource type="Texture2D" uid="uid://n3440yxg4ysf" path="res://HUD/GameOverHUD/score-sheet.png" id="4_nscnu"]
+[ext_resource type="Texture2D" uid="uid://kublfr40hquf" path="res://HUD/GameOverHUD/okbutton.png" id="6_1gknp"]
+[ext_resource type="Texture2D" uid="uid://cjfd6p5uqrhjl" path="res://HUD/GameOverHUD/sharebutton.png" id="7_3iw2s"]
 [ext_resource type="Script" path="res://HUD/button.gd" id="7_erm88"]
+[ext_resource type="AudioStream" uid="uid://brwkv81mvpslo" path="res://assets/sounds/woosh.wav" id="8_rvh6r"]
 
-[node name="HUD" type="CanvasLayer"]
-script = ExtResource("1_1j5c7")
+[node name="GameOver" type="CanvasLayer"]
+script = ExtResource("1_5hrrw")
 
 [node name="GameOver" type="TextureRect" parent="."]
 texture_filter = 1
@@ -27,9 +27,18 @@ stretch_mode = 4
 
 [node name="ScoreSheet" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -333.0
+offset_right = -148.16
+offset_bottom = -277.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_group_ = true
 
 [node name="Background" type="TextureRect" parent="ScoreSheet"]
 texture_filter = 1
@@ -54,9 +63,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = 141.0
-offset_top = 291.0
+offset_top = 298.0
 offset_right = 381.93
-offset_bottom = 393.0
+offset_bottom = 400.0
 grow_horizontal = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
@@ -72,9 +81,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = 141.0
-offset_top = 342.59
+offset_top = 349.59
 offset_right = 381.93
-offset_bottom = 444.59
+offset_bottom = 451.59
 grow_horizontal = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
@@ -83,45 +92,38 @@ theme_override_font_sizes/font_size = 25
 text = "0"
 horizontal_alignment = 1
 
-[node name="OKButton" type="TextureButton" parent="."]
+[node name="Buttons" type="HBoxContainer" parent="."]
+offset_left = 61.0
+offset_top = 416.0
+offset_right = 289.0
+offset_bottom = 477.0
+alignment = 1
+metadata/_edit_group_ = true
+
+[node name="OKButton" type="TextureButton" parent="Buttons"]
 texture_filter = 1
-offset_left = 71.0
-offset_top = 426.0
-offset_right = 158.0
-offset_bottom = 457.0
+layout_mode = 2
+size_flags_horizontal = 3
 texture_normal = ExtResource("6_1gknp")
 stretch_mode = 5
 script = ExtResource("7_erm88")
 
-[node name="ShareButton" type="TextureButton" parent="."]
+[node name="Spacer1" type="Control" parent="Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="ShareButton" type="TextureButton" parent="Buttons"]
 texture_filter = 1
-offset_left = 200.015
-offset_top = 426.175
-offset_right = 287.015
-offset_bottom = 457.175
+layout_mode = 2
+size_flags_horizontal = 3
 texture_normal = ExtResource("7_3iw2s")
 stretch_mode = 5
 script = ExtResource("7_erm88")
 
-[node name="ScoreLabel" type="Label" parent="."]
-texture_filter = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -123.0
-offset_top = 20.5
-offset_right = 123.0
-offset_bottom = 122.5
-grow_horizontal = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("1_dpvm1")
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 1
-
 [node name="MenuSelectSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_htev3")
+stream = ExtResource("8_rvh6r")
 
-[connection signal="pressed" from="OKButton" to="OKButton" method="_on_pressed"]
-[connection signal="pressed" from="ShareButton" to="ShareButton" method="_on_pressed"]
+[connection signal="pressed" from="Buttons/OKButton" to="." method="_on_ok_button_pressed"]
+[connection signal="pressed" from="Buttons/OKButton" to="Buttons/OKButton" method="_on_pressed"]
+[connection signal="pressed" from="Buttons/ShareButton" to="Buttons/ShareButton" method="_on_pressed"]

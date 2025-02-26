@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj5q43l0m72dk"]
+
+[ext_resource type="FontFile" uid="uid://p8g0sp7rxolq" path="res://assets/flappy-font.ttf" id="1_3u04k"]
+
+[node name="MainGameHud" type="CanvasLayer"]
+
+[node name="ScoreLabel" type="Label" parent="."]
+texture_filter = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -123.0
+offset_top = 20.5
+offset_right = 123.0
+offset_bottom = 122.5
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("1_3u04k")
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 1

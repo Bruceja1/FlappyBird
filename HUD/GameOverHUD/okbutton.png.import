@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yrp1maykpere"
-path="res://.godot/imported/game-over.png-cffe93b887d8eda29ef6c372ad84597a.ctex"
+uid="uid://kublfr40hquf"
+path="res://.godot/imported/okbutton.png-e0757eec1ae3de95228d0d7ef04ee8e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://HUD/game-over.png"
-dest_files=["res://.godot/imported/game-over.png-cffe93b887d8eda29ef6c372ad84597a.ctex"]
+source_file="res://HUD/GameOverHUD/okbutton.png"
+dest_files=["res://.godot/imported/okbutton.png-e0757eec1ae3de95228d0d7ef04ee8e4.ctex"]
 
 [params]
 

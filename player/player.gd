@@ -4,24 +4,35 @@ const GRAVITY = 1200
 const JUMP_VELOCITY = -320.0
 
 signal hit
+signal idle_state_broken
 
 var viewport_size
-enum State { Alive, Dead }
+enum State { Alive, Dead, Idle, Frozen }
 var current_state : State
 var rotation_speed : float = 0.08
 var rotation_threshold : int = 170
+var default_pos : Vector2
+var default_rot : int
 
 func _ready() -> void:
+	default_pos = position
+	default_rot = rotation
 	viewport_size = get_viewport_rect().size
 	$AnimatedSprite2D.play("fly")
 	print(viewport_size.x, viewport_size.y)
-	current_state = State.Alive
-
-func _physics_process(delta: float) -> void:
-	player_falling(delta)
-	player_jump(delta)
+	current_state = State.Frozen
+	#hide()
 	
-	rotate_sprite(rotation_speed)
+func _physics_process(delta: float) -> void:
+	if current_state != State.Frozen and current_state != State.Idle:
+		player_falling(delta)
+		player_jump(delta)
+
+		rotate_sprite(rotation_speed)
+	
+	if current_state == State.Idle:
+		player_idle(delta)
+		return
 	
 	move_and_slide()
 
@@ -55,3 +66,19 @@ func rotate_sprite(rotation_speed):
 
 func display_flash():
 	pass
+
+# When idle state it awaits input, after which it will go into flapping ('Alive') state
+func player_idle(delta):
+	if Input.is_action_just_pressed("jump"):
+		current_state = State.Alive
+		idle_state_broken.emit()
+		player_jump(delta)
+		
+func reset_player():
+	current_state = State.Frozen
+	position = default_pos
+	$AnimatedSprite2D.rotation = default_rot
+	print("rotation is now ", rotation)
+	$AnimatedSprite2D.play("fly")
+	#hide()
+		

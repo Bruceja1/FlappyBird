@@ -3,10 +3,16 @@ extends Node2D
 @export var pipe_scene : PackedScene
 @export var ground_scene : PackedScene
 
+signal reset_game
+signal start_game
+signal game_over
+
+const default_ground_speed : int = 2
+
 var low_pipe_pos : int = 560
 var high_pipe_pos : int = 256
 var pipe_x_pos : int = 390
-var ground_speed : int = 2
+var ground_speed : int = default_ground_speed
 var moving_marker_default_pos : Vector2
 # When ground moves past this x, new ground will spawn to create infinite ground scrolling effect
 var ground_x_threshold : int = -410
@@ -14,11 +20,9 @@ var screen_size : Vector2
 
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
-	$HUD.screen_size = screen_size
-	$TimerPipe.start()
+	$GameOverHUD.screen_size = screen_size
 	moving_marker_default_pos = $MovingGroundMarker.position
 	
-
 func _process(delta: float) -> void:
 	pass
 
@@ -26,17 +30,41 @@ func _physics_process(delta: float) -> void:
 	move_ground()
 	pipe_passthrough()
 	
-func reset_game() -> void:
+func _on_start_game() -> void:
+	$TitleScreenHUD.hide()
+	await fade_out()
+	$MainGameHUD.show()
+	$Player.show()
+	$Player.current_state = $Player.State.Idle
+	$StartGameHUD.fade_in_icons()
+	
+# Triggers when 'OK' button is pressed on game over screen
+func _on_reset_game() -> void:
 	# pipes disappear
 	for item in self.get_children():
 		# CAUTION: if the Area2D is not a pipe, this will probably crash the game!
 		if item.get_class() == "Area2D":
 			remove_child(item)
-	# ground moves
-	ground_speed = ground_speed
-	# game title appears with animated flappy texture next to it
+	$GameOverHUD/GameOver.hide()
+	$GameOverHUD/ScoreSheet.hide()
+	$GameOverHUD/Buttons.hide()
+	await fade_out()
+	$MainGameHUD.reset_score()
+	# Ground moves again
+	ground_speed = default_ground_speed
+	# Hide Game over HUD
+	# Hide player and reset position
+	print("Player position was ", $Player.position)
+	$Player.reset_player()
+	print("Player position is now ", $Player.position)
 	
-	# start and score buttons appear
+	
+	# Trigger title screen HUD
+	reset_game.emit()
+	
+func _on_idle_state_broken() -> void:
+	$StartGameHUD.fade_out_icons()
+	$TimerPipe.start()
 	
 func _on_player_hit() -> void:
 	print("Player was hit!")
@@ -49,7 +77,8 @@ func _on_player_hit() -> void:
 		if item.get_class() == "Area2D":
 			item.pipe_speed = 0
 	display_flash()
-	$HUD.game_over()
+	$MainGameHUD.game_over()
+	game_over.emit()
  	
 func _on_pipe_timer_timeout() -> void:
 	var pipe = pipe_scene.instantiate()
@@ -78,7 +107,7 @@ func pipe_passthrough() -> void:
 		if item.is_in_group("Pipe"):
 			if item.position.x == $Player.position.x:
 				$CoinSound.play()
-				$HUD.update_score()
+				$MainGameHUD.update_score()
 			
 func display_flash() -> void: 
 	var flash = ColorRect.new()
@@ -93,3 +122,21 @@ func display_flash() -> void:
 		await get_tree().create_timer(0.001).timeout
 		flash.modulate.a8 -= 5
 	remove_child(flash)
+
+func fade_out() -> void:
+	var fade_out = ColorRect.new()
+	fade_out.size = screen_size
+	fade_out.color = Color.BLACK
+	fade_out.z_index = 5
+	fade_out.modulate.a8 = 0
+	add_child(fade_out)
+	while fade_out.modulate.a8 < 255:
+		await get_tree().create_timer(0.001).timeout
+		fade_out.modulate.a8 += 5
+	while fade_out.modulate.a8 > 0:
+		await get_tree().create_timer(0.001).timeout
+		fade_out.modulate.a8 -= 5
+	remove_child(fade_out)
+
+func _on_score_updated() -> void:
+	$GameOverHUD.score += 1

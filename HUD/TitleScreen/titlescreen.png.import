@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kublfr40hquf"
-path="res://.godot/imported/okbutton.png-04005dd0bb88b0397e4f40aeca6b15b8.ctex"
+uid="uid://ceccb6m8f8gpj"
+path="res://.godot/imported/titlescreen.png-71569319021c37dddbc77a8444b36890.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://HUD/okbutton.png"
-dest_files=["res://.godot/imported/okbutton.png-04005dd0bb88b0397e4f40aeca6b15b8.ctex"]
+source_file="res://HUD/TitleScreen/titlescreen.png"
+dest_files=["res://.godot/imported/titlescreen.png-71569319021c37dddbc77a8444b36890.ctex"]
 
 [params]
 

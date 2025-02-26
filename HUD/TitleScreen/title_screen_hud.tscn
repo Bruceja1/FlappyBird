@@ -1,0 +1,99 @@
+[gd_scene load_steps=11 format=3 uid="uid://oys4oirqnln7"]
+
+[ext_resource type="Script" path="res://HUD/TitleScreen/title_screen.gd" id="1_xyfhm"]
+[ext_resource type="Texture2D" uid="uid://df0bfp6qagwhk" path="res://player/player.png" id="2_6qk2g"]
+[ext_resource type="Texture2D" uid="uid://ceccb6m8f8gpj" path="res://HUD/TitleScreen/titlescreen.png" id="3_natw5"]
+[ext_resource type="Texture2D" uid="uid://be8b5ufkretof" path="res://HUD/TitleScreen/start_button.png" id="4_n0wvv"]
+[ext_resource type="Script" path="res://HUD/button.gd" id="5_p8ub1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d144f"]
+atlas = ExtResource("2_6qk2g")
+region = Rect2(0, 0, 17, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjhgh"]
+atlas = ExtResource("2_6qk2g")
+region = Rect2(17, 0, 17, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcmpg"]
+atlas = ExtResource("2_6qk2g")
+region = Rect2(34, 0, 17, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olr21"]
+atlas = ExtResource("2_6qk2g")
+region = Rect2(51, 0, 17, 12)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8ls5t"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d144f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjhgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcmpg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olr21")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 8.0
+}]
+
+[node name="TitleScreen" type="CanvasLayer"]
+script = ExtResource("1_xyfhm")
+
+[node name="GameTitle" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -188.46
+offset_top = -379.915
+offset_right = -188.46
+offset_bottom = -379.915
+scale = Vector2(2, 2)
+metadata/_edit_group_ = true
+
+[node name="GameTitleTexture" type="TextureRect" parent="GameTitle"]
+texture_filter = 1
+offset_left = 121.5
+offset_top = 297.0
+offset_right = 217.5
+offset_bottom = 343.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_natw5")
+stretch_mode = 5
+
+[node name="Flappy" type="AnimatedSprite2D" parent="GameTitle"]
+texture_filter = 1
+position = Vector2(237.224, 319)
+scale = Vector2(1.2911, 1.33333)
+sprite_frames = SubResource("SpriteFrames_8ls5t")
+animation = &"new_animation"
+frame_progress = 0.2238
+
+[node name="StartButton" type="TextureButton" parent="."]
+texture_filter = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -42.0
+offset_top = -204.0
+offset_right = 42.0
+offset_bottom = -130.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("4_n0wvv")
+stretch_mode = 5
+script = ExtResource("5_p8ub1")
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
