@@ -21,7 +21,7 @@ func _ready() -> void:
 	$AnimatedSprite2D.play("fly")
 	print(viewport_size.x, viewport_size.y)
 	current_state = State.Frozen
-	#hide()
+	hide()
 	
 func _physics_process(delta: float) -> void:
 	if current_state != State.Frozen and current_state != State.Idle:
@@ -80,5 +80,5 @@ func reset_player():
 	$AnimatedSprite2D.rotation = default_rot
 	print("rotation is now ", rotation)
 	$AnimatedSprite2D.play("fly")
-	#hide()
+	hide()
 		

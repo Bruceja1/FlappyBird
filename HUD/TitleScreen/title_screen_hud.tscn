@@ -86,9 +86,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -42.0
+offset_left = -45.0
 offset_top = -204.0
-offset_right = 42.0
+offset_right = 39.0
 offset_bottom = -130.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -97,3 +97,4 @@ stretch_mode = 5
 script = ExtResource("5_p8ub1")
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="StartButton" to="StartButton" method="_on_pressed"]

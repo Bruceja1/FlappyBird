@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cirfrcg3iv6bo"]
+[gd_scene load_steps=16 format=3 uid="uid://cirfrcg3iv6bo"]
 
 [ext_resource type="Script" path="res://level/level.gd" id="1_5ow2e"]
 [ext_resource type="Texture2D" uid="uid://bklylkidr6em2" path="res://level/background.png" id="1_66n7g"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://b1nbj5dqgap6f" path="res://assets/sounds/coin.wav" id="8_njxtp"]
 [ext_resource type="PackedScene" uid="uid://oys4oirqnln7" path="res://HUD/TitleScreen/title_screen_hud.tscn" id="9_c6wvd"]
 [ext_resource type="PackedScene" uid="uid://t6qp3ndlybqc" path="res://HUD/StartGameHUD/start_game_hud.tscn" id="10_7fif3"]
+[ext_resource type="AudioStream" uid="uid://brwkv81mvpslo" path="res://assets/sounds/woosh.wav" id="12_lfeax"]
 
 [sub_resource type="GDScript" id="GDScript_mc0ia"]
 script/source = "extends StaticBody2D
@@ -110,6 +111,9 @@ stream = ExtResource("7_amvyr")
 
 [node name="CoinSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_njxtp")
+
+[node name="MenuSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_lfeax")
 
 [connection signal="game_over" from="." to="GameOverHUD" method="_on_game_over"]
 [connection signal="reset_game" from="." to="TitleScreenHUD" method="_on_game_reset"]

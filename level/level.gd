@@ -32,8 +32,13 @@ func _physics_process(delta: float) -> void:
 	pipe_passthrough()
 	
 func _on_start_game() -> void:
+	$MenuSound.play()
+	# Small timer so button animation can play
+	await get_tree().create_timer(0.05).timeout
+	fade_out()
 	$TitleScreenHUD.hide()
-	await fade_out()
+	# Small timer so that the player and HUD don't appear during the fade out
+	await get_tree().create_timer(0.5).timeout
 	$MainGameHUD.show()
 	$Player.show()
 	$Player.current_state = $Player.State.Idle
@@ -41,28 +46,23 @@ func _on_start_game() -> void:
 	
 # Triggers when 'OK' button is pressed on game over screen
 func _on_reset_game() -> void:
+	$MenuSound.play()
+	# Small timer so button animation can play
+	await get_tree().create_timer(0.05).timeout
 	# pipes disappear
 	for item in self.get_children():
 		# CAUTION: if the Area2D is not a pipe, this will probably crash the game!
 		if item.get_class() == "Area2D":
-			remove_child(item)
-			
-	# Hide Game over HUD
-	$GameOverHUD/GameOver.hide()
-	$GameOverHUD/ScoreSheet.hide()
-	$GameOverHUD/Buttons.hide()
-	
-	await fade_out()
-	
+			remove_child(item)		
+	fade_out()
+	$GameOverHUD.hide_elements()
 	score = 0
 	$MainGameHUD.update_score(score)
-	
+	await get_tree().create_timer(0.5).timeout
 	# Ground moves again
 	ground_speed = default_ground_speed
-	
 	# Hide player and reset position
 	$Player.reset_player()
-	
 	# Trigger title screen HUD
 	reset_game.emit()
 	
@@ -109,7 +109,8 @@ func pipe_passthrough() -> void:
 	for item in self.get_children():
 		# if item is pipe, check if pos.x is equal to playerpos.x
 		if item.is_in_group("Pipe"):
-			if item.position.x == $Player.position.x:
+			# Check if player is dead to prevent score increasing infinitely while player is dead
+			if item.position.x == $Player.position.x and $Player.current_state != $Player.State.Dead:
 				score += 1
 				$CoinSound.play()
 				$MainGameHUD.update_score(score)
@@ -138,6 +139,8 @@ func fade_out() -> void:
 	while fade_out.modulate.a8 < 255:
 		await get_tree().create_timer(0.001).timeout
 		fade_out.modulate.a8 += 5
+	# Here the screen is completely black
+	await get_tree().create_timer(0.1).timeout	
 	while fade_out.modulate.a8 > 0:
 		await get_tree().create_timer(0.001).timeout
 		fade_out.modulate.a8 -= 5

@@ -2,7 +2,7 @@ extends CanvasLayer
 
 signal ok_button_pressed
 
-var screen_size : Vector2
+var screen_size : Vector2 # Gets initialized via level.gd
 var scoresheet_scroll_speed : int = 20
 var default_scoresheet_pos : Vector2
 
@@ -12,6 +12,7 @@ func _ready() -> void:
 	$GameOver.hide()
 	$ScoreSheet.hide()
 	$Buttons.hide()
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
@@ -49,13 +50,16 @@ func game_over_screen(score : int) -> void:
 		counter += 1
 
 	# Time between scoresheet appearing and buttons appearing
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.5).timeout
 	$Buttons.show()
 	
-	
-
 func _on_ok_button_pressed() -> void:
-	$MenuSelectSound.play()
-	await get_tree().create_timer(0.2).timeout
-	# Signal will be received by the level script to trigger game reset
 	ok_button_pressed.emit()
+
+# Makes elements disappear during the fadeout instead of disappearing instantly
+func hide_elements() -> void:
+	await get_tree().create_timer(0.1).timeout
+	# await fadeout signal?
+	$GameOver.hide()
+	$ScoreSheet.hide()
+	$Buttons.hide()
