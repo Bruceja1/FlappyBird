@@ -5,10 +5,16 @@ signal ok_button_pressed
 var screen_size : Vector2 # Gets initialized via level.gd
 var scoresheet_scroll_speed : int = 20
 var default_scoresheet_pos : Vector2
+var default_gameover_pos : Vector2
+var gameover_distance : int = 10 # How far the image moves upward in the animation
+var transparency_delta : int = 10
+var transparency_time_interval : float = 0.02
+var gameover_move_time_interval : float = 0.01
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	default_scoresheet_pos = $ScoreSheet/Background.position
+	default_gameover_pos = $GameOver.position
 	$GameOver.hide()
 	$ScoreSheet.hide()
 	$Buttons.hide()
@@ -18,7 +24,7 @@ func _process(delta: float) -> void:
 	pass
 
 func game_over_screen(score : int) -> void:
-	$GameOver.show()
+	show_game_over()
 	$MenuSelectSound.play()
 	# Time between game over appearing and the scoresheet appearing
 	await get_tree().create_timer(1).timeout
@@ -63,3 +69,23 @@ func hide_elements() -> void:
 	$GameOver.hide()
 	$ScoreSheet.hide()
 	$Buttons.hide()
+
+func show_game_over() -> void:
+	await get_tree().create_timer(0.5).timeout
+	move_game_over()
+	$GameOver.show()
+	$GameOver.modulate.a8 = 0
+	while $GameOver.modulate.a8 < 255: # 255 is the max value; image is completely opaque
+		$GameOver.modulate.a8 += transparency_delta
+		await get_tree().create_timer(transparency_time_interval).timeout
+
+func move_game_over() -> void:
+	while $GameOver.position.y > default_gameover_pos.y - gameover_distance:
+		$GameOver.position.y -= 1
+		await get_tree().create_timer(gameover_move_time_interval).timeout
+		print($GameOver.position)
+	while $GameOver.position.y < default_gameover_pos.y:
+		$GameOver.position.y += 1
+		await get_tree().create_timer(gameover_move_time_interval).timeout
+		print($GameOver.position)
+	
