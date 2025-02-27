@@ -62,6 +62,7 @@ metadata/_edit_group_ = true
 
 [node name="GameTitleTexture" type="TextureRect" parent="GameTitle"]
 texture_filter = 1
+layout_mode = 0
 offset_left = 121.5
 offset_top = 297.0
 offset_right = 217.5

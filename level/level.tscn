@@ -102,10 +102,6 @@ position = Vector2(616, 528)
 
 [node name="StartGameHUD" parent="." instance=ExtResource("10_7fif3")]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_right = 2.16
-offset_bottom = 1.86
-
 [node name="GameOver" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_amvyr")
 

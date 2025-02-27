@@ -14,6 +14,15 @@ var rotation_threshold : int = 170
 var default_pos : Vector2
 var default_rot : int
 
+var distance : int = 3 # How far up and down the player moves in idle state
+var delta_distance : int = 1 # Amount of pixels per movement in idle state
+var time_interval : float = 0.04 # Time between each pixel movement
+var completed_loop : bool = true # Prevents _physics_process() from calling this 
+								 # function when previous animation loop hasn't finished
+var pause_time : float = 0.1 # How long the animation pauses for on the highest and 
+							 # lowest points
+
+
 func _ready() -> void:
 	default_pos = position
 	default_rot = rotation
@@ -70,6 +79,33 @@ func player_idle(delta) -> void:
 		current_state = State.Alive
 		idle_state_broken.emit()
 		player_jump(delta)
+	move_idle()
+		
+# Idle up and down movement
+func move_idle():
+	if !completed_loop:
+		return
+	
+	completed_loop = false
+	
+	# Move up
+	while position.y > default_pos.y - distance:
+		position.y -= delta_distance
+		await get_tree().create_timer(time_interval).timeout
+	await get_tree().create_timer(pause_time).timeout
+	
+	# Move down
+	while position.y < default_pos.y + distance:
+		position.y += delta_distance
+		await get_tree().create_timer(time_interval).timeout	
+	await get_tree().create_timer(pause_time).timeout
+	
+	# Move back to original position
+	while position.y > default_pos.y:
+		position.y -= delta_distance
+		await get_tree().create_timer(time_interval).timeout
+	
+	completed_loop = true
 		
 func reset_player() -> void:
 	current_state = State.Frozen
@@ -81,7 +117,7 @@ func reset_player() -> void:
 		
 func pause() -> void:
 	current_state = State.Frozen
-	velocity.y = 0
+	velocity.y = 0 # Prevents player from flying up infinitely on its own
 	$AnimatedSprite2D.pause()
 
 func unpause() -> void:
