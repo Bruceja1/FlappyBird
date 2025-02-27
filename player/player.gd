@@ -90,18 +90,30 @@ func move_idle():
 	
 	# Move up
 	while position.y > default_pos.y - distance:
+		# This if check makes sure this while loop terminates immediately 
+		# when the player changed states anywhere between move_idle() being called
+		# and this while loop starting
+		if current_state != State.Idle:
+			completed_loop = true
+			return
 		position.y -= delta_distance
 		await get_tree().create_timer(time_interval).timeout
 	await get_tree().create_timer(pause_time).timeout
 	
 	# Move down
 	while position.y < default_pos.y + distance:
+		if current_state != State.Idle:
+			completed_loop = true
+			return
 		position.y += delta_distance
 		await get_tree().create_timer(time_interval).timeout	
 	await get_tree().create_timer(pause_time).timeout
 	
 	# Move back to original position
 	while position.y > default_pos.y:
+		if current_state != State.Idle:
+			completed_loop = true
+			return
 		position.y -= delta_distance
 		await get_tree().create_timer(time_interval).timeout
 	
