@@ -10,20 +10,33 @@ var gameover_distance : int = 10 # How far the image moves upward in the animati
 var transparency_delta : int = 10
 var transparency_time_interval : float = 0.02
 var gameover_move_time_interval : float = 0.01
+var sparkle_loop_time_interval : int = 1
+var sparkle_range : int = 20 # Max distance from default position the sparkle can appear
+var default_sparkle_pos : Vector2
+var random_sparkle_x_pos : int
+var random_sparkle_y_pos : int
+var sparkle_loop_done : bool = true # Prevents _process() from calling move_sparkle()
+									 # when still in the middle of an animation loop
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	default_scoresheet_pos = $ScoreSheet/Background.position
 	default_gameover_pos = $GameOver.position
+	default_sparkle_pos = Vector2($Badges/Gold.position + $Badges/Gold.size / 2)
+	$Badges/Silver.position = $Badges/Gold.position
+	$Badges/Silver.size = $Badges/Gold.size
+	$Badges/Bronze.position = $Badges/Gold.position
+	$Badges/Bronze.size = $Badges/Gold.size
 	$GameOver.hide()
 	$ScoreSheet.hide()
 	$Buttons.hide()
+	hide_badge()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	move_sparkle()
 
-func game_over_screen(score : int) -> void:
+func game_over_screen(score : int, goldscore : int, silverscore : int, bronzescore: int) -> void:
 	show_game_over()
 	$MenuSelectSound.play()
 	# Time between game over appearing and the scoresheet appearing
@@ -31,6 +44,7 @@ func game_over_screen(score : int) -> void:
 
 	# Code below makes scoresheet appear, moves it up and displays the final score
 	$ScoreSheet.show()
+	$ScoreSheet/BestScoreLabel.text = str(goldscore)
 	$MenuSelectSound.play()
 	
 	# When the scoresheet appears, it scrolls from the bottom to the middle of the screen
@@ -55,10 +69,42 @@ func game_over_screen(score : int) -> void:
 		await get_tree().create_timer(time_per_score).timeout
 		counter += 1
 
-	# Time between scoresheet appearing and buttons appearing
+	# Time between scoresheet appearing and buttons and badges appearing
 	await get_tree().create_timer(0.1).timeout
 	$Buttons.show()
+	show_badge(score, goldscore, silverscore, bronzescore)
 	
+func show_badge(score : int, goldscore : int, silverscore : int, bronzescore: int) -> void:
+	if score == 0:
+		return
+	if score == goldscore:
+		$Badges/Gold.show()
+		$Badges/Sparkle.show()
+	elif score == silverscore:
+		$Badges/Silver.show()
+		$Badges/Sparkle.show()
+	elif score == bronzescore:
+		$Badges/Bronze.show()
+		$Badges/Sparkle.show()
+	
+func hide_badge() -> void:
+	$Badges/Gold.hide()
+	$Badges/Silver.hide()
+	$Badges/Bronze.hide()
+	$Badges/Sparkle.hide()
+
+func move_sparkle() -> void:
+	if !sparkle_loop_done:
+		return
+	sparkle_loop_done = false
+	$Badges/Sparkle.play()
+	await get_tree().create_timer(sparkle_loop_time_interval).timeout
+	# Move to random new spot
+	random_sparkle_x_pos = randi_range(default_sparkle_pos.x - sparkle_range, default_sparkle_pos.x + sparkle_range)
+	random_sparkle_y_pos = randi_range(default_sparkle_pos.y - sparkle_range, default_sparkle_pos.y + sparkle_range)
+	$Badges/Sparkle.position = Vector2(random_sparkle_x_pos, random_sparkle_y_pos)
+	sparkle_loop_done = true
+
 func _on_ok_button_pressed() -> void:
 	ok_button_pressed.emit()
 
@@ -69,6 +115,7 @@ func hide_elements() -> void:
 	$GameOver.hide()
 	$ScoreSheet.hide()
 	$Buttons.hide()
+	hide_badge()
 
 func show_game_over() -> void:
 	await get_tree().create_timer(0.5).timeout

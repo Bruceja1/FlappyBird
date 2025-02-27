@@ -10,6 +10,10 @@ signal game_over
 const DEFAULT_GROUND_SPEED : int = 2
 
 var score : int = 0
+var goldscore : int = 0
+var silverscore: int = 0
+var bronzescore: int = 0
+
 var low_pipe_pos : int = 560
 var high_pipe_pos : int = 256
 var pipe_x_pos : int = 390
@@ -80,7 +84,12 @@ func _on_player_hit() -> void:
 			item.pipe_speed = 0
 	display_flash()
 	$MainGameHUD.game_over()
-	$GameOverHUD.game_over_screen(score)
+	update_highscores()
+	print("Score is ", score)
+	print("Best ", goldscore)
+	print("silver ", silverscore)
+	print("bronze", bronzescore)
+	$GameOverHUD.game_over_screen(score, goldscore, silverscore, bronzescore)
  	
 func _on_pipe_timer_timeout() -> void:
 	var pipe = pipe_scene.instantiate()
@@ -163,3 +172,11 @@ func unpause_game() -> void:
 			item.pipe_speed = item.DEFAULT_SPEED
 	$TimerPipe.paused = false
 	ground_speed = DEFAULT_GROUND_SPEED
+
+func update_highscores() -> void:
+	if score > goldscore:
+		goldscore = score
+	elif score > silverscore:
+		silverscore = score
+	elif score > bronzescore:
+		bronzescore = score
