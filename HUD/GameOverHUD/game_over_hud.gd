@@ -83,9 +83,7 @@ func move_game_over() -> void:
 	while $GameOver.position.y > default_gameover_pos.y - gameover_distance:
 		$GameOver.position.y -= 1
 		await get_tree().create_timer(gameover_move_time_interval).timeout
-		print($GameOver.position)
 	while $GameOver.position.y < default_gameover_pos.y:
 		$GameOver.position.y += 1
 		await get_tree().create_timer(gameover_move_time_interval).timeout
-		print($GameOver.position)
 	
