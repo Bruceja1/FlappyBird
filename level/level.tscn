@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://c7o5ap7gp8aqy" path="res://ground/ground.png" id="3_akm70"]
 [ext_resource type="PackedScene" uid="uid://dg5bt6iy7pee3" path="res://player/player.tscn" id="3_enfji"]
 [ext_resource type="PackedScene" uid="uid://dxbwgo2331w4i" path="res://pipe/pipe.tscn" id="4_ettgd"]
+[ext_resource type="PackedScene" uid="uid://bpa2ddhms6vk0" path="res://effects/fadeout.tscn" id="4_oytiw"]
+[ext_resource type="PackedScene" uid="uid://lq5wcxada5ue" path="res://effects/flash.tscn" id="4_v458w"]
 [ext_resource type="PackedScene" uid="uid://d0y487jhnugs7" path="res://hud/GameOverHUD/game_over_hud.tscn" id="6_jl6tk"]
 [ext_resource type="AudioStream" uid="uid://6lvvrcsvtshm" path="res://assets/sounds/game-over.wav" id="7_amvyr"]
 [ext_resource type="PackedScene" uid="uid://cj5q43l0m72dk" path="res://hud/MainGameHUD/main_game_hud.tscn" id="7_sttb2"]
@@ -13,51 +15,14 @@
 [ext_resource type="PackedScene" uid="uid://t6qp3ndlybqc" path="res://hud/StartGameHUD/start_game_hud.tscn" id="10_7fif3"]
 [ext_resource type="AudioStream" uid="uid://brwkv81mvpslo" path="res://assets/sounds/woosh.wav" id="12_lfeax"]
 
-[sub_resource type="GDScript" id="GDScript_mc0ia"]
-script/source = "extends StaticBody2D
-
-@export var ground_speed : int = 2
-# When ground moves past this point it will get reset back to (0, 0).
-var x_threshold = -410
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func _physics_process(delta: float) -> void:
-	move_ground()
-
-func move_ground() -> void:
-	position.x -= ground_speed
-	if position.x <= x_threshold:
-		position.x = 0
-"
-
-[sub_resource type="PackedScene" id="PackedScene_mu8o5"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("Ground", "script", "StaticBody2D", "Sprite2D", "texture_filter", "position", "texture", "CollisionShape2D"),
-"node_count": 3,
-"node_paths": [],
-"nodes": PackedInt32Array(-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 3, 3, -1, 3, 4, 1, 5, 2, 6, 3, 0, 0, 0, 7, 7, -1, 0, 0),
-"variants": [SubResource("GDScript_mc0ia"), 1, Vector2(231, 555), ExtResource("3_akm70")],
-"version": 3
-}
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mv0iq"]
 size = Vector2(616, 112)
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_5ow2e")
 pipe_scene = ExtResource("4_ettgd")
-ground_scene = SubResource("PackedScene_mu8o5")
+fadeout_scene = ExtResource("4_oytiw")
+flash_scene = ExtResource("4_v458w")
 
 [node name="Background" type="TextureRect" parent="."]
 texture_filter = 1

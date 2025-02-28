@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpa2ddhms6vk0"]
+
+[ext_resource type="Texture2D" uid="uid://cb0yufkrtauv" path="res://effects/fadeout.png" id="1_c37nk"]
+
+[node name="Fadeout" type="TextureRect"]
+texture = ExtResource("1_c37nk")

@@ -150,6 +150,51 @@ theme_override_font_sizes/font_size = 25
 text = "0"
 horizontal_alignment = 1
 
+[node name="Badges" type="Control" parent="ScoreSheet"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -5.0
+offset_top = 13.0
+offset_right = 35.0
+offset_bottom = 53.0
+
+[node name="Gold" type="TextureRect" parent="ScoreSheet/Badges"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 73.0
+offset_top = 296.0
+offset_right = 126.0
+offset_bottom = 349.0
+pivot_offset = Vector2(26, 25)
+texture = ExtResource("9_20sdc")
+
+[node name="Silver" type="TextureRect" parent="ScoreSheet/Badges"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 79.0
+offset_top = 304.0
+offset_right = 119.0
+offset_bottom = 344.0
+texture = ExtResource("10_7up15")
+
+[node name="Bronze" type="TextureRect" parent="ScoreSheet/Badges"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 79.0
+offset_top = 302.0
+offset_right = 119.0
+offset_bottom = 342.0
+texture = ExtResource("11_ahxd8")
+
+[node name="Sparkle" type="AnimatedSprite2D" parent="ScoreSheet/Badges"]
+texture_filter = 1
+position = Vector2(99, 322)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_4b3ap")
+animation = &"sparkle"
+frame = 5
+frame_progress = 1.0
+
 [node name="Buttons" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
@@ -179,49 +224,6 @@ script = ExtResource("7_erm88")
 
 [node name="MenuSelectSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_rvh6r")
-
-[node name="Badges" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Gold" type="TextureRect" parent="Badges"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 73.0
-offset_top = 276.0
-offset_right = 126.0
-offset_bottom = 329.0
-pivot_offset = Vector2(26, 25)
-texture = ExtResource("9_20sdc")
-
-[node name="Silver" type="TextureRect" parent="Badges"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 79.0
-offset_top = 304.0
-offset_right = 119.0
-offset_bottom = 344.0
-texture = ExtResource("10_7up15")
-
-[node name="Bronze" type="TextureRect" parent="Badges"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 79.0
-offset_top = 302.0
-offset_right = 119.0
-offset_bottom = 342.0
-texture = ExtResource("11_ahxd8")
-
-[node name="Sparkle" type="AnimatedSprite2D" parent="Badges"]
-texture_filter = 1
-position = Vector2(99, 322)
-scale = Vector2(2, 2)
-sprite_frames = SubResource("SpriteFrames_4b3ap")
-animation = &"sparkle"
-frame = 5
-frame_progress = 1.0
 
 [connection signal="pressed" from="Buttons/OKButton" to="." method="_on_ok_button_pressed"]
 [connection signal="pressed" from="Buttons/OKButton" to="Buttons/OKButton" method="_on_pressed"]

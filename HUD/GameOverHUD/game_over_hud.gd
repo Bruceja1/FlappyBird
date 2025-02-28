@@ -3,13 +3,14 @@ extends CanvasLayer
 signal ok_button_pressed
 
 var screen_size : Vector2 # Gets initialized via level.gd
-var scoresheet_scroll_speed : int = 20
+var scoresheet_scroll_speed : int = 40
 var default_scoresheet_pos : Vector2
 var default_gameover_pos : Vector2
 var gameover_distance : int = 10 # How far the image moves upward in the animation
 var transparency_delta : int = 10
 var transparency_time_interval : float = 0.02
 var gameover_move_time_interval : float = 0.01
+var scoresheet_move_time_interval: float = 0.01
 var sparkle_loop_time_interval : float = 0.5
 var sparkle_range : int = 20 # Max distance from default position the sparkle can appear
 var default_sparkle_pos : Vector2
@@ -20,13 +21,14 @@ var sparkle_loop_done : bool = true # Prevents _process() from calling move_spar
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	default_scoresheet_pos = $ScoreSheet/Background.position
+	print("Default scoresheet pos ", default_scoresheet_pos)
+	default_scoresheet_pos = $ScoreSheet.position
 	default_gameover_pos = $GameOver.position
-	default_sparkle_pos = Vector2($Badges/Gold.position + $Badges/Gold.size / 2)
-	$Badges/Silver.position = $Badges/Gold.position
-	$Badges/Silver.size = $Badges/Gold.size
-	$Badges/Bronze.position = $Badges/Gold.position
-	$Badges/Bronze.size = $Badges/Gold.size
+	default_sparkle_pos = Vector2($ScoreSheet/Badges/Gold.position + $ScoreSheet/Badges/Gold.size / 2)
+	$ScoreSheet/Badges/Silver.position = $ScoreSheet/Badges/Gold.position
+	$ScoreSheet/Badges/Silver.size = $ScoreSheet/Badges/Gold.size
+	$ScoreSheet/Badges/Bronze.position = $ScoreSheet/Badges/Gold.position
+	$ScoreSheet/Badges/Bronze.size = $ScoreSheet/Badges/Gold.size
 	$GameOver.hide()
 	$ScoreSheet.hide()
 	$Buttons.hide()
@@ -49,17 +51,16 @@ func game_over_screen(score : int, goldscore : int, silverscore : int, bronzesco
 	
 	# When the scoresheet appears, it scrolls from the bottom to the middle of the screen
 	# So first put the scoresheet at the bottom
-	for item in $ScoreSheet.get_children():
-		item.position.y += screen_size.y
+	$ScoreSheet.position.y += screen_size.y
 		
 	# Move the scoresheet upwards
-	while $ScoreSheet/Background.position.y >= default_scoresheet_pos.y:
-		await get_tree().create_timer(0.0001).timeout
-		for item in $ScoreSheet.get_children():
-			if !item.name.begins_with("Background"):
-				item.position.y -= scoresheet_scroll_speed
-		$ScoreSheet/Background.position.y -= scoresheet_scroll_speed
-		
+	while $ScoreSheet.position.y >= default_scoresheet_pos.y:
+		await get_tree().create_timer(scoresheet_move_time_interval).timeout
+		$ScoreSheet.position.y -= scoresheet_scroll_speed
+	print("Default scoresheet pos ", default_scoresheet_pos)
+	print("Scoresheet pos ", $ScoreSheet.position)
+	$ScoreSheet.position.y = default_scoresheet_pos.y
+	print("Scoresheet pos ", $ScoreSheet.position)
 	# Displayed final score on the scoresheet starts from 0 then increments towards the final score
 	# The higher the score, the faster it increments
 	var time_per_score : float = 1 / (score + 1.0)
@@ -78,31 +79,31 @@ func show_badge(score : int, goldscore : int, silverscore : int, bronzescore: in
 	if score == 0:
 		return
 	if score == goldscore:
-		$Badges/Gold.show()
-		$Badges/Sparkle.show()
+		$ScoreSheet/Badges/Gold.show()
+		$ScoreSheet/Badges/Sparkle.show()
 	elif score == silverscore:
-		$Badges/Silver.show()
-		$Badges/Sparkle.show()
+		$ScoreSheet/Badges/Silver.show()
+		$ScoreSheet/Badges/Sparkle.show()
 	elif score == bronzescore:
-		$Badges/Bronze.show()
-		$Badges/Sparkle.show()
+		$ScoreSheet/Badges/Bronze.show()
+		$ScoreSheet/Badges/Sparkle.show()
 	
 func hide_badge() -> void:
-	$Badges/Gold.hide()
-	$Badges/Silver.hide()
-	$Badges/Bronze.hide()
-	$Badges/Sparkle.hide()
+	$ScoreSheet/Badges/Gold.hide()
+	$ScoreSheet/Badges/Silver.hide()
+	$ScoreSheet/Badges/Bronze.hide()
+	$ScoreSheet/Badges/Sparkle.hide()
 
 func move_sparkle() -> void:
 	if !sparkle_loop_done:
 		return
 	sparkle_loop_done = false
-	$Badges/Sparkle.play()
+	$ScoreSheet/Badges/Sparkle.play()
 	await get_tree().create_timer(sparkle_loop_time_interval).timeout
 	# Move to random new spot
 	random_sparkle_x_pos = randi_range(default_sparkle_pos.x - sparkle_range, default_sparkle_pos.x + sparkle_range)
 	random_sparkle_y_pos = randi_range(default_sparkle_pos.y - sparkle_range, default_sparkle_pos.y + sparkle_range)
-	$Badges/Sparkle.position = Vector2(random_sparkle_x_pos, random_sparkle_y_pos)
+	$ScoreSheet/Badges/Sparkle.position = Vector2(random_sparkle_x_pos, random_sparkle_y_pos)
 	sparkle_loop_done = true
 
 func _on_ok_button_pressed() -> void:

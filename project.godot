@@ -10,16 +10,18 @@ config_version=5
 
 [application]
 
-config/name="flappier_bird"
+config/name="Flappy Bird"
 run/main_scene="res://level/level.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
-config/icon="res://icon.svg"
+boot_splash/show_image=false
+config/icon="res://assets/icon432x432.png"
 
 [display]
 
 window/size/viewport_width=360
 window/size/viewport_height=640
 window/stretch/mode="canvas_items"
+window/handheld/orientation=1
 
 [dotnet]
 
@@ -41,3 +43,4 @@ jump={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

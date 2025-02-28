@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://lq5wcxada5ue"]
+
+[ext_resource type="Texture2D" uid="uid://5bbxnndqrsyd" path="res://effects/flash.png" id="1_pj7bk"]
+
+[node name="Flash" type="TextureRect"]
+texture = ExtResource("1_pj7bk")

@@ -1,7 +1,8 @@
 extends Node2D
 
 @export var pipe_scene : PackedScene
-@export var ground_scene : PackedScene
+@export var fadeout_scene : PackedScene
+@export var flash_scene : PackedScene
 
 signal reset_game
 signal start_game
@@ -24,6 +25,14 @@ var moving_marker_default_pos : Vector2
 # When ground moves past this x, ground position will reset to create infinite ground scrolling effect
 var ground_x_threshold : int = -410
 var screen_size : Vector2
+
+
+# To calculate how long the transitions (fade out and flash) last,
+# use this formula: length = a8 / delta_increment * time_interval
+# Make sure time_interval is not too small or else the transitions won't work on phones
+var transition_time_interval : float = 0.01
+var transition_delta_increment : float = 0.05
+var transition_a : float = 1.0
 
 func _ready() -> void:
 	load_data()
@@ -62,12 +71,12 @@ func _on_reset_game() -> void:
 	$GameOverHUD.hide_elements()
 	score = 0
 	$MainGameHUD.update_score(score)
-	await get_tree().create_timer(0.5).timeout
 	# Ground moves again
 	ground_speed = DEFAULT_GROUND_SPEED
 	# Hide player and reset position
 	$Player.reset_player()
-	# Trigger title screen HUD
+	# Trigger title screen HUD after small delay so it doesn't appear during fade out
+	await get_tree().create_timer(0.5).timeout
 	reset_game.emit()
 	
 func _on_idle_state_broken() -> void:
@@ -114,35 +123,33 @@ func pipe_passthrough() -> void:
 				$MainGameHUD.update_score(score)
 			
 func display_flash() -> void: 
-	var flash = ColorRect.new()
+	var flash = flash_scene.instantiate()
 	flash.size = screen_size
-	flash.color = Color.WHITE
 	flash.z_index = 5
 	# Set the opacity to high value. a8 goes from 0-255
-	flash.modulate.a8 = 150
+	flash.modulate.a = transition_a
 	add_child(flash)
 	# Gradually decrease the opacity to create flash effect
-	while flash.modulate.a8 != 0:
-		await get_tree().create_timer(0.001).timeout
-		flash.modulate.a8 -= 5
-	remove_child(flash)
+	while flash.modulate.a != 0:
+		await get_tree().create_timer(transition_time_interval).timeout
+		flash.modulate.a -= transition_delta_increment
+	flash.queue_free()
 
 func fade_out() -> void:
-	var fade_out = ColorRect.new()
+	var fade_out = fadeout_scene.instantiate()
 	fade_out.size = screen_size
-	fade_out.color = Color.BLACK
 	fade_out.z_index = 5
-	fade_out.modulate.a8 = 0
+	fade_out.modulate.a = 0
 	add_child(fade_out)
-	while fade_out.modulate.a8 < 255:
-		await get_tree().create_timer(0.001).timeout
-		fade_out.modulate.a8 += 5
+	while fade_out.modulate.a < transition_a:
+		await get_tree().create_timer(transition_time_interval).timeout
+		fade_out.modulate.a += transition_delta_increment
 	# Here the screen is completely black
 	await get_tree().create_timer(0.1).timeout	
-	while fade_out.modulate.a8 > 0:
-		await get_tree().create_timer(0.001).timeout
-		fade_out.modulate.a8 -= 5
-	remove_child(fade_out)
+	while fade_out.modulate.a > 0:
+		await get_tree().create_timer(transition_time_interval).timeout
+		fade_out.modulate.a -= transition_delta_increment
+	fade_out.queue_free()
 
 func pause_game() -> void:
 	$MainGameHUD/PauseButton.hide()
