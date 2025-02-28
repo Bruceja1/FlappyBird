@@ -9,6 +9,8 @@ signal game_over
 
 const DEFAULT_GROUND_SPEED : int = 2
 
+var save_path = "user://flappybird.save"
+
 var score : int = 0
 var goldscore : int = 0
 var silverscore: int = 0
@@ -24,6 +26,7 @@ var ground_x_threshold : int = -410
 var screen_size : Vector2
 
 func _ready() -> void:
+	load_data()
 	screen_size = get_viewport_rect().size
 	$GameOverHUD.screen_size = screen_size
 	moving_marker_default_pos = $MovingGroundMarker.position
@@ -168,3 +171,19 @@ func update_highscores() -> void:
 		silverscore = score
 	elif score > bronzescore:
 		bronzescore = score
+	save()
+
+func save() -> void:
+	var file = FileAccess.open(save_path, FileAccess.WRITE)
+	file.store_var(goldscore)
+	file.store_var(silverscore)
+	file.store_var(bronzescore)
+	
+func load_data() -> void:
+	if FileAccess.file_exists(save_path):
+		var file = FileAccess.open(save_path, FileAccess.READ)
+		goldscore = file.get_var(goldscore)
+		silverscore = file.get_var(silverscore)
+		bronzescore = file.get_var(bronzescore)
+	else:
+		print("Could not load save data!")

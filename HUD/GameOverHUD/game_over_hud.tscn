@@ -1,17 +1,16 @@
-[gd_scene load_steps=20 format=3 uid="uid://d0y487jhnugs7"]
+[gd_scene load_steps=19 format=3 uid="uid://d0y487jhnugs7"]
 
-[ext_resource type="Script" path="res://HUD/GameOverHUD/game_over_hud.gd" id="1_5hrrw"]
+[ext_resource type="Script" path="res://hud/GameOverHUD/game_over_hud.gd" id="1_5hrrw"]
 [ext_resource type="FontFile" uid="uid://p8g0sp7rxolq" path="res://assets/flappy-font.ttf" id="1_dpvm1"]
-[ext_resource type="Texture2D" uid="uid://yrp1maykpere" path="res://HUD/GameOverHUD/game-over.png" id="3_efhec"]
-[ext_resource type="Texture2D" uid="uid://n3440yxg4ysf" path="res://HUD/GameOverHUD/score-sheet.png" id="4_nscnu"]
-[ext_resource type="Texture2D" uid="uid://kublfr40hquf" path="res://HUD/GameOverHUD/okbutton.png" id="6_1gknp"]
-[ext_resource type="Texture2D" uid="uid://cjfd6p5uqrhjl" path="res://HUD/GameOverHUD/sharebutton.png" id="7_3iw2s"]
-[ext_resource type="Script" path="res://HUD/button.gd" id="7_erm88"]
+[ext_resource type="Texture2D" uid="uid://yrp1maykpere" path="res://hud/GameOverHUD/game-over.png" id="3_efhec"]
+[ext_resource type="Texture2D" uid="uid://n3440yxg4ysf" path="res://hud/GameOverHUD/score-sheet.png" id="4_nscnu"]
+[ext_resource type="Texture2D" uid="uid://kublfr40hquf" path="res://hud/GameOverHUD/okbutton.png" id="6_1gknp"]
+[ext_resource type="Script" path="res://hud/button.gd" id="7_erm88"]
 [ext_resource type="AudioStream" uid="uid://brwkv81mvpslo" path="res://assets/sounds/woosh.wav" id="8_rvh6r"]
-[ext_resource type="Texture2D" uid="uid://bike0le7egl1r" path="res://HUD/GameOverHUD/gold.png" id="9_20sdc"]
-[ext_resource type="Texture2D" uid="uid://cju7kekn46iml" path="res://HUD/GameOverHUD/silver.png" id="10_7up15"]
-[ext_resource type="Texture2D" uid="uid://34n1aw7p4cao" path="res://HUD/GameOverHUD/bronze.png" id="11_ahxd8"]
-[ext_resource type="Texture2D" uid="uid://2816rxx4y1hp" path="res://HUD/GameOverHUD/sparkle.png" id="12_3b471"]
+[ext_resource type="Texture2D" uid="uid://bike0le7egl1r" path="res://hud/GameOverHUD/gold.png" id="9_20sdc"]
+[ext_resource type="Texture2D" uid="uid://cju7kekn46iml" path="res://hud/GameOverHUD/silver.png" id="10_7up15"]
+[ext_resource type="Texture2D" uid="uid://34n1aw7p4cao" path="res://hud/GameOverHUD/bronze.png" id="11_ahxd8"]
+[ext_resource type="Texture2D" uid="uid://2816rxx4y1hp" path="res://hud/GameOverHUD/sparkle.png" id="12_3b471"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cr6w5"]
 atlas = ExtResource("12_3b471")
@@ -151,32 +150,30 @@ theme_override_font_sizes/font_size = 25
 text = "0"
 horizontal_alignment = 1
 
-[node name="Buttons" type="HBoxContainer" parent="."]
+[node name="Buttons" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 offset_left = 61.0
 offset_top = 416.0
 offset_right = 289.0
 offset_bottom = 477.0
-alignment = 1
 metadata/_edit_group_ = true
 
 [node name="OKButton" type="TextureButton" parent="Buttons"]
 texture_filter = 1
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -29.0
+offset_right = 54.0
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 3
 texture_normal = ExtResource("6_1gknp")
-stretch_mode = 5
-script = ExtResource("7_erm88")
-
-[node name="Spacer1" type="Control" parent="Buttons"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
-[node name="ShareButton" type="TextureButton" parent="Buttons"]
-texture_filter = 1
-layout_mode = 2
-size_flags_horizontal = 3
-texture_normal = ExtResource("7_3iw2s")
 stretch_mode = 5
 script = ExtResource("7_erm88")
 
@@ -228,4 +225,3 @@ frame_progress = 1.0
 
 [connection signal="pressed" from="Buttons/OKButton" to="." method="_on_ok_button_pressed"]
 [connection signal="pressed" from="Buttons/OKButton" to="Buttons/OKButton" method="_on_pressed"]
-[connection signal="pressed" from="Buttons/ShareButton" to="Buttons/ShareButton" method="_on_pressed"]

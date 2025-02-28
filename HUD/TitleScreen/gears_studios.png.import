@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ckg6hxn1alb5e"
-path="res://.godot/imported/gears_studios.png-04c2def8ba1df55e621f43b307e4e024.ctex"
+path="res://.godot/imported/gears_studios.png-043d96369521de852f04da592d112f7e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://HUD/TitleScreen/gears_studios.png"
-dest_files=["res://.godot/imported/gears_studios.png-04c2def8ba1df55e621f43b307e4e024.ctex"]
+source_file="res://hud/TitleScreen/gears_studios.png"
+dest_files=["res://.godot/imported/gears_studios.png-043d96369521de852f04da592d112f7e.ctex"]
 
 [params]
 

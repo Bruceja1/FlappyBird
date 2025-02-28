@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://34n1aw7p4cao"
-path="res://.godot/imported/bronze.png-c88b69b00ca79d0ec50a3fc2e1e99942.ctex"
+path="res://.godot/imported/bronze.png-f2925a9e1c2219e6914d7d2ecfef2b7c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://HUD/GameOverHUD/bronze.png"
-dest_files=["res://.godot/imported/bronze.png-c88b69b00ca79d0ec50a3fc2e1e99942.ctex"]
+source_file="res://hud/GameOverHUD/bronze.png"
+dest_files=["res://.godot/imported/bronze.png-f2925a9e1c2219e6914d7d2ecfef2b7c.ctex"]
 
 [params]
 

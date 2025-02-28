@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cm316t641ss68"
-path="res://.godot/imported/unpausebutton.png-8755f689bb0ae923c4026afeb3eec6c3.ctex"
+path="res://.godot/imported/unpausebutton.png-e940ed655cc40dc71abee3eb017fdee6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://HUD/MainGameHUD/unpausebutton.png"
-dest_files=["res://.godot/imported/unpausebutton.png-8755f689bb0ae923c4026afeb3eec6c3.ctex"]
+source_file="res://hud/MainGameHUD/unpausebutton.png"
+dest_files=["res://.godot/imported/unpausebutton.png-e940ed655cc40dc71abee3eb017fdee6.ctex"]
 
 [params]
 

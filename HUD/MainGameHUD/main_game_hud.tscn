@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://cj5q43l0m72dk"]
 
 [ext_resource type="FontFile" uid="uid://p8g0sp7rxolq" path="res://assets/flappy-font.ttf" id="1_3u04k"]
-[ext_resource type="Script" path="res://HUD/MainGameHUD/main_game_hud.gd" id="1_non0a"]
-[ext_resource type="Texture2D" uid="uid://dypi4vtmpiimh" path="res://HUD/MainGameHUD/pausebutton.png" id="3_007m5"]
-[ext_resource type="Script" path="res://HUD/button.gd" id="4_0tum1"]
-[ext_resource type="Texture2D" uid="uid://cm316t641ss68" path="res://HUD/MainGameHUD/unpausebutton.png" id="5_xt7i8"]
+[ext_resource type="Script" path="res://hud/MainGameHUD/main_game_hud.gd" id="1_non0a"]
+[ext_resource type="Texture2D" uid="uid://dypi4vtmpiimh" path="res://hud/MainGameHUD/pausebutton.png" id="3_007m5"]
+[ext_resource type="Script" path="res://hud/button.gd" id="4_0tum1"]
+[ext_resource type="Texture2D" uid="uid://cm316t641ss68" path="res://hud/MainGameHUD/unpausebutton.png" id="5_xt7i8"]
 
 [node name="MainGameHUD" type="CanvasLayer"]
 script = ExtResource("1_non0a")
