@@ -10,7 +10,7 @@ var gameover_distance : int = 10 # How far the image moves upward in the animati
 var transparency_delta : int = 10
 var transparency_time_interval : float = 0.02
 var gameover_move_time_interval : float = 0.01
-var sparkle_loop_time_interval : int = 1
+var sparkle_loop_time_interval : float = 0.5
 var sparkle_range : int = 20 # Max distance from default position the sparkle can appear
 var default_sparkle_pos : Vector2
 var random_sparkle_x_pos : int

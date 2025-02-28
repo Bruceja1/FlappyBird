@@ -45,8 +45,9 @@ func _on_start_game() -> void:
 	await get_tree().create_timer(0.5).timeout
 	$MainGameHUD.show_elements()
 	$Player.show()
+	await $StartGameHUD.fade_in_icons()
 	$Player.current_state = $Player.State.Idle
-	$StartGameHUD.fade_in_icons()
+	
 	
 # Triggers when 'OK' button is pressed on game over screen
 func _on_reset_game() -> void:

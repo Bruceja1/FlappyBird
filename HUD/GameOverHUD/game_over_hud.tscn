@@ -65,7 +65,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"sparkle",
-"speed": 15.0
+"speed": 12.0
 }]
 
 [node name="GameOver" type="CanvasLayer"]
@@ -201,6 +201,7 @@ texture = ExtResource("9_20sdc")
 
 [node name="Silver" type="TextureRect" parent="Badges"]
 texture_filter = 1
+layout_mode = 0
 offset_left = 79.0
 offset_top = 304.0
 offset_right = 119.0
@@ -209,6 +210,7 @@ texture = ExtResource("10_7up15")
 
 [node name="Bronze" type="TextureRect" parent="Badges"]
 texture_filter = 1
+layout_mode = 0
 offset_left = 79.0
 offset_top = 302.0
 offset_right = 119.0
