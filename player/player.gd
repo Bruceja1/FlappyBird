@@ -24,6 +24,7 @@ var pause_time : float = 0.1 # How long the animation pauses for on the highest 
 
 
 func _ready() -> void:
+	add_to_group("Player")
 	default_pos = position
 	default_rot = rotation
 	viewport_size = get_viewport_rect().size

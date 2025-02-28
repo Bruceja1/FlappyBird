@@ -22,7 +22,5 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	print("This pipe is deleted now!")
 	
 func _on_body_entered(body: Node2D) -> void:
-	if body.get_class() != "StaticBody2D":
-		print("Pipe touched!")
-	if body.get_class() == "CharacterBody2D":
+	if body.is_in_group("Player"):
 		body.game_over()

@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://oys4oirqnln7"]
+[gd_scene load_steps=13 format=3 uid="uid://oys4oirqnln7"]
 
 [ext_resource type="Script" path="res://HUD/TitleScreen/title_screen.gd" id="1_xyfhm"]
 [ext_resource type="Texture2D" uid="uid://df0bfp6qagwhk" path="res://player/player.png" id="2_6qk2g"]
 [ext_resource type="Texture2D" uid="uid://ceccb6m8f8gpj" path="res://HUD/TitleScreen/titlescreen.png" id="3_natw5"]
 [ext_resource type="Texture2D" uid="uid://be8b5ufkretof" path="res://HUD/TitleScreen/start_button.png" id="4_n0wvv"]
 [ext_resource type="Script" path="res://HUD/button.gd" id="5_p8ub1"]
+[ext_resource type="Texture2D" uid="uid://ckg6hxn1alb5e" path="res://HUD/TitleScreen/gears_studios.png" id="6_ihoa4"]
+[ext_resource type="Texture2D" uid="uid://dvtxre1nvvvrv" path="res://HUD/TitleScreen/bruceja.png" id="7_qy05o"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d144f"]
 atlas = ExtResource("2_6qk2g")
@@ -96,6 +98,49 @@ grow_vertical = 0
 texture_normal = ExtResource("4_n0wvv")
 stretch_mode = 5
 script = ExtResource("5_p8ub1")
+
+[node name="Credits" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -12.0
+offset_right = 40.0
+offset_bottom = 28.0
+metadata/_edit_group_ = true
+
+[node name="GearsStudios" type="TextureRect" parent="Credits"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 499.0
+offset_right = 280.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("6_ihoa4")
+stretch_mode = 5
+
+[node name="Bruceja" type="TextureRect" parent="Credits"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 70.0
+offset_top = 571.0
+offset_right = 250.0
+offset_bottom = 592.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("7_qy05o")
+expand_mode = 1
+stretch_mode = 5
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="StartButton" to="StartButton" method="_on_pressed"]

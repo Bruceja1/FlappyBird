@@ -48,15 +48,13 @@ func _on_start_game() -> void:
 	await $StartGameHUD.fade_in_icons()
 	$Player.current_state = $Player.State.Idle
 	
-	
 # Triggers when 'OK' button is pressed on game over screen
 func _on_reset_game() -> void:
 	$MenuSound.play()
 	# pipes disappear
 	for item in self.get_children():
-		# CAUTION: if the Area2D is not a pipe, this will probably crash the game!
-		if item.get_class() == "Area2D":
-			remove_child(item)		
+		if item.is_in_group("Pipe"):
+			item.queue_free()		
 	fade_out()
 	$GameOverHUD.hide_elements()
 	score = 0
@@ -80,32 +78,23 @@ func _on_player_hit() -> void:
 	ground_speed = 0
 	# Get each current pipe instance and set all of their speeds to 0
 	for item in self.get_children():
-		# CAUTION: if the Area2D is not a pipe, this will probably crash the game!
-		if item.get_class() == "Area2D":
+		if item.is_in_group("Pipe"):
 			item.pipe_speed = 0
 	display_flash()
 	$MainGameHUD.game_over()
 	update_highscores()
-	print("Score is ", score)
-	print("Best ", goldscore)
-	print("silver ", silverscore)
-	print("bronze", bronzescore)
 	$GameOverHUD.game_over_screen(score, goldscore, silverscore, bronzescore)
  	
 func _on_pipe_timer_timeout() -> void:
 	var pipe = pipe_scene.instantiate()
-	
 	pipe.position.x = pipe_x_pos
-	
 	# Pipes spawn at random heights
 	pipe.position.y = randi_range(low_pipe_pos, high_pipe_pos)
-	
 	add_child(pipe)
 	
 func move_ground() -> void:
 	$Ground.position.x -= ground_speed
 	$MovingGroundMarker.position.x -= ground_speed
-	
 	# Simulate infinitely moving ground by resetting its position when it moves past a certain marker
 	if $MovingGroundMarker.position.x < $GroundMarker2.position.x:
 		$Ground.position = $GroundMarker1.position
@@ -113,9 +102,7 @@ func move_ground() -> void:
 		
 # Check when the player passes through a pipe and then update score
 func pipe_passthrough() -> void:
-	# look for all active nodes in the scene tree
 	for item in self.get_children():
-		# if item is pipe, check if pos.x is equal to playerpos.x
 		if item.is_in_group("Pipe"):
 			# Check if player is dead to prevent score increasing infinitely while player is dead
 			if item.position.x == $Player.position.x and $Player.current_state != $Player.State.Dead:

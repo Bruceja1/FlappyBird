@@ -111,7 +111,6 @@ func _on_ok_button_pressed() -> void:
 # Makes elements disappear during the fadeout instead of disappearing instantly
 func hide_elements() -> void:
 	await get_tree().create_timer(0.1).timeout
-	# await fadeout signal?
 	$GameOver.hide()
 	$ScoreSheet.hide()
 	$Buttons.hide()
